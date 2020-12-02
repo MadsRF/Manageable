@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*style for all forms*/
+form {
+  padding: 5%;
+  box-shadow: lightgray 1px 1px 5px;
+}
+
+/*main menu*/
+.nav-item {
+  font-size: 1.5em;
+  padding-inline: 15%;
+  border-right: 1px #292e33 solid;
+}
+
+/* distance left, right for forms login and register */
+.formsframe {
+  margin-inline: 35%;
+}
