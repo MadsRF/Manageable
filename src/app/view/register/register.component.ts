@@ -10,13 +10,22 @@ import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class RegisterComponent implements OnInit {
 
+  // TODO: use the user interface for values
+  firstname = '';
+  lastname = '';
+  company = '';
   email = '';
   password = '';
+
   message = '';
   errorMessage = ''; // validation error handling
   error: { name: string, message: string } = {name: '', message: ''}; // for firebase error handling
 
-  constructor(private authService: AuthService, private router: Router, config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private config: NgbModalConfig,
+              private modalService: NgbModal) {
+
     // customize default values of modals used by this component tree
     config.backdrop = 'static';
     config.keyboard = false;
@@ -25,26 +34,30 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clearErrorMessage() {
-    this.errorMessage = '';
-    this.error = {name: '', message: ''};
-  }
-
-  register(content) {
+  registerUser(content) {
     this.clearErrorMessage();
-    if (this.validateForm(this.email, this.password)) {
+    if (this.validateRegisterForm(this.email, this.password)) {
+
+      const user = {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        company: this.company,
+        email: this.email,
+      };
+
       this.authService.registerWithEmail(this.email, this.password).then(() => {
+        this.authService.createAdminUser(user).then(r => {});
         this.modalService.open(content);
-        this.message = 'Congratulations on creating your profile \n\n Login to get started'.toUpperCase();
-        // this.router.navigate(['/userinfo']);
+        this.router.navigate(['userinfo']);
+        this.message = '\nCongratulations on creating your profile\n'.toUpperCase();
       }).catch(error => {
         this.error = error;
-        this.router.navigate(['/register']);
+        this.router.navigate(['register']);
       });
     }
   }
 
-  validateForm(email, password) {
+  validateRegisterForm(email, password) {
     if (email.lengh === 0) {
       this.errorMessage = 'Please enter email';
       return false;
@@ -61,4 +74,10 @@ export class RegisterComponent implements OnInit {
     this.errorMessage = '';
     return true;
   }
+
+  clearErrorMessage() {
+    this.errorMessage = '';
+    this.error = {name: '', message: ''};
+  }
+
 }

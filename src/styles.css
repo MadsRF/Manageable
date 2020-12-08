@@ -13,7 +13,16 @@ form {
   border-right: 1px #292e33 solid;
 }
 
-/* distance left, right for forms login and register */
-.formsframe {
-  margin-inline: 35%;
+
+/* global footer css */
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.linkedinlogo {
+  padding-left: 20px;
 }

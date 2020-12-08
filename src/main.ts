@@ -7,6 +7,6 @@ import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
 }
-
+// executes our angular app on ng serve. first file to be called.
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

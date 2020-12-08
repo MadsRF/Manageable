@@ -6,7 +6,9 @@ import {PagenotfoundComponent} from './view/pagenotfound/pagenotfound.component'
 import {ContactComponent} from './view/contact/contact.component';
 import {LoginComponent} from './view/login/login.component';
 import {RegisterComponent} from './view/register/register.component';
-import {UserinfoComponent} from './userinfo/userinfo.component';
+import {UserinfoComponent} from './view/userinfo/userinfo.component';
+import {BoardComponent} from './view/board/board.component';
+import {ScheduleComponent} from './view/schedule/schedule.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -15,6 +17,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'userinfo', component: UserinfoComponent},
+  {path: 'board', component: BoardComponent},
+  {path: 'schedule', component: ScheduleComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'}, // redirect to `first-component`
   {path: '**', component: PagenotfoundComponent},  // Wildcard route for a 404 page
 ];

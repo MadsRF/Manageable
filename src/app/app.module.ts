@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {PdfViewerModule} from 'ng2-pdf-viewer';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -10,14 +11,17 @@ import {PagenotfoundComponent} from './view/pagenotfound/pagenotfound.component'
 import {ContactComponent} from './view/contact/contact.component';
 import {RegisterComponent} from './view/register/register.component';
 import {LoginComponent} from './view/login/login.component';
+import {UserinfoComponent} from './view/userinfo/userinfo.component';
+import {BoardComponent} from './view/board/board.component';
+import {ScheduleComponent} from './view/schedule/schedule.component';
 
 // firebase module
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
-import { UserinfoComponent } from './userinfo/userinfo.component';
 
+// Angular decorator that modifies/setup our app.module
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +31,9 @@ import { UserinfoComponent } from './userinfo/userinfo.component';
     ContactComponent,
     RegisterComponent,
     LoginComponent,
-    UserinfoComponent
+    UserinfoComponent,
+    BoardComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +42,7 @@ import { UserinfoComponent } from './userinfo/userinfo.component';
     AngularFireModule.initializeApp(environment.firebaseConfig), // points to the firebase key
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    PdfViewerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

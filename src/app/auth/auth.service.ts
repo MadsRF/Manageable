@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -10,25 +11,31 @@ export class AuthService {
 
   authState: any = null;
 
-  constructor(private afu: AngularFireAuth, private router: Router) {
-    this.afu.authState.subscribe((auth => {
+  constructor(private afAuth: AngularFireAuth, private router: Router, public fireService: AngularFirestore) {
+    this.afAuth.authState.subscribe((auth => {
       this.authState = auth;
     }));
   }
 
   registerWithEmail(email: string, password: string) {
-    return this.afu.createUserWithEmailAndPassword(email, password)
-      .then((user) => {
-        this.authState = user;
+    console.log(email, password);
+    return this.afAuth.createUserWithEmailAndPassword(email, password)
+      .then((data) => {
+        this.authState = data;
       })
       .catch(error => {
         console.log(error);
         throw error;
       });
+  }
+
+  createAdminUser(user: User) {
+    console.log(user);
+    return this.fireService.collection('users').add(user);
   }
 
   loginWithEmail(email: string, password: string) {
-    return this.afu.signInWithEmailAndPassword(email, password)
+    return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((user) => {
         this.authState = user;
       })
@@ -38,9 +45,9 @@ export class AuthService {
       });
   }
 
-  singout(): void {
-    this.afu.signOut();
-    this.router.navigate(['/login']);
+  logout(): void {
+    this.afAuth.signOut();
+    this.router.navigate(['/login']).then();
   }
 
   // all firebase getter functions
@@ -53,7 +60,7 @@ export class AuthService {
   }
 
   get currentUserName(): string {
-    return this.authState = 'email';
+    return this.authState.email;
   }
 
   get currentUser(): any {
@@ -63,4 +70,11 @@ export class AuthService {
   get isUserEmailLoggedIn(): boolean {
     return (this.authState !== null) && (!this.isUserAnonymousLoggedIn);
   }
+}
+
+export interface User {
+  firstname?: string;
+  lastname?: string;
+  company?: string;
+  email?: string;
 }
