@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../auth/auth.service';
+import {AuthService} from '../../services/auth/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -20,11 +20,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clearErrorMessage() {
-    this.errorMessage = '';
-    this.error = {name: '', message: ''};
-  }
-
+  // checks with firebase is user info is inputted and then if its valid. routes to userinfo site
   login() {
     this.clearErrorMessage();
     if (this.validateForm(this.email, this.password)) {
@@ -38,6 +34,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  // custom validator for register form
   validateForm(email, password) {
     if (email.lenght === 0) {
       this.errorMessage = 'please enter email id';
@@ -57,5 +54,11 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     return true;
 
+  }
+
+  // is called in validateRegisterForm, clears messages on true value
+  clearErrorMessage() {
+    this.errorMessage = '';
+    this.error = {name: '', message: ''};
   }
 }

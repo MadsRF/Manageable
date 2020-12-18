@@ -1,25 +1,34 @@
 import {BrowserModule} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, NgForm} from '@angular/forms';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
-
 import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {HomeComponent} from './view/home/home.component';
-import {AboutComponent} from './view/about/about.component';
-import {PagenotfoundComponent} from './view/pagenotfound/pagenotfound.component';
-import {ContactComponent} from './view/contact/contact.component';
-import {RegisterComponent} from './view/register/register.component';
-import {LoginComponent} from './view/login/login.component';
-import {UserinfoComponent} from './view/userinfo/userinfo.component';
-import {BoardComponent} from './view/board/board.component';
-import {ScheduleComponent} from './view/schedule/schedule.component';
+import {environment} from '../environments/environment';
+import {NgbDatepickerModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
-// firebase module
+// Components
+import {AppComponent} from './app.component';
+import {HomeComponent} from './views/home/home.component';
+import {AboutComponent} from './views/about/about.component';
+import {PagenotfoundComponent} from './views/pagenotfound/pagenotfound.component';
+import {ContactComponent} from './views/contact/contact.component';
+import {RegisterComponent} from './views/register/register.component';
+import {LoginComponent} from './views/login/login.component';
+import {UserinfoComponent} from './views/userinfo/userinfo.component';
+import {BoardComponent} from './views/board/board.component';
+import {ScheduleComponent} from './views/schedule/schedule.component';
+
+// Firebase module
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {environment} from '../environments/environment';
+import {AuthService} from './services/auth/auth.service';
+import {ScheduleService} from './services/schedule/schedule.service';
+import {BoardService} from './services/board/board.service';
+
 
 // Angular decorator that modifies/setup our app.module
 @NgModule({
@@ -36,6 +45,9 @@ import {environment} from '../environments/environment';
     ScheduleComponent
   ],
   imports: [
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
+    CommonModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule, // CLI adds AppRoutingModule to the AppModule's imports array
@@ -43,8 +55,10 @@ import {environment} from '../environments/environment';
     AngularFireDatabaseModule,
     AngularFirestoreModule,
     PdfViewerModule,
+    NgbDatepickerModule,
+    NgbModule,
   ],
-  providers: [],
+  providers: [AuthService, ScheduleService, BoardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

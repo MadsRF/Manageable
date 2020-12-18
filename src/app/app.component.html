@@ -38,7 +38,7 @@
 </div>
 
 
-<div *ngIf="authService.currentUser">
+<div *ngIf="authService.isUserEmailLoggedIn">
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
     <!-- logo -->
@@ -57,10 +57,21 @@
         <a class="nav-link" routerLink="/schedule" routerLinkActive="active">Schedule</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/logout" routerLinkActive="active">Logout</a>
+        <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/userinfo" routerLinkActive="active">User Info</a>
+      <li class="nav-item d-inline-block">
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">Options
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding: 20px; margin: 10px; width: 250px">
+            <span>Logged in as:</span><br>
+            <b>{{authService.currentUserName}}</b>
+            <br><br>
+            <a class="dropdown-item" routerLink="/userinfo" routerLinkActive="active"><h5>User Info</h5></a>
+            <a class="dropdown-item" routerLink="/logout" routerLinkActive="active"><h5>Logout</h5></a>
+          </div>
+        </div>
       </li>
     </ul>
   </nav>
@@ -78,7 +89,7 @@
     <!-- Version -->
     <div class="py-3 text-white-50">2020 - Final Exam Project Ver. 0.1<a
       href="https://www.linkedin.com/in/madsrunefrederiksen">
-      <img class="linkedinlogo" src="./assets/images/LI-In-Bug.png" style="width: 50px">
+      <img class="linkedinlogo" src="./assets/images/LI-In-Bug.png" alt="link" style="width: 50px">
     </a>
 
     </div>

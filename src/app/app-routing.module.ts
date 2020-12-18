@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {HomeComponent} from './view/home/home.component';
-import {AboutComponent} from './view/about/about.component';
-import {PagenotfoundComponent} from './view/pagenotfound/pagenotfound.component';
-import {ContactComponent} from './view/contact/contact.component';
-import {LoginComponent} from './view/login/login.component';
-import {RegisterComponent} from './view/register/register.component';
-import {UserinfoComponent} from './view/userinfo/userinfo.component';
-import {BoardComponent} from './view/board/board.component';
-import {ScheduleComponent} from './view/schedule/schedule.component';
+import {HomeComponent} from './views/home/home.component';
+import {AboutComponent} from './views/about/about.component';
+import {PagenotfoundComponent} from './views/pagenotfound/pagenotfound.component';
+import {ContactComponent} from './views/contact/contact.component';
+import {LoginComponent} from './views/login/login.component';
+import {RegisterComponent} from './views/register/register.component';
+import {UserinfoComponent} from './views/userinfo/userinfo.component';
+import {BoardComponent} from './views/board/board.component';
+import {ScheduleComponent} from './views/schedule/schedule.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},

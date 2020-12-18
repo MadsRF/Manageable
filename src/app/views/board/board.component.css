@@ -1,0 +1,26 @@
+.frame {
+  margin-inline: 20%;
+}
+
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 20px;
+/* TODO: Figure out what this do */
+  content: "";
+  clear: both;
+  display: table;
+  margin-bottom: 20px;
+}
+
+.left {
+  float: left;
+  color: #999;
+}
+
+.right {
+  float: right;
+  color: #aaa;
+}
+

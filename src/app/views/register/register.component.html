@@ -1,25 +1,25 @@
 <div class=" row">
-  <form class="col formsframe" (ngSubmit)="registerUser(content)">
+  <form class="col formsframe" (ngSubmit)="registerCompany(content)">
 
     <div class="form-group">
       <label for="firstname">First name</label>
-      <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="firstname">
+      <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="companyUser.firstname">
     </div>
 
     <div class="form-group">
       <label for="lastname">Last name</label>
-      <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="lastname">
+      <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="companyUser.lastname">
     </div>
 
     <div class="form-group">
       <label for="company">Company name / Associations name</label>
-      <input type="text" class="form-control" id="company" name="company" [(ngModel)]="company">
+      <input type="text" class="form-control" id="company" name="company" [(ngModel)]="companyUser.company">
     </div>
 
     <div class="form-group">
       <label for="email">Email</label>
       <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-             placeholder="name@example.com" [(ngModel)]="email" required>
+             placeholder="name@example.com" [(ngModel)]="companyUser.email" required>
       <small id="emailHelp" class="form-text text-muted">*We'll never share your email with anyone else. This will also be your username</small>
     </div>
 
@@ -68,7 +68,7 @@
 
   <div class="col container">
     <h2 class="centered text-dark">Do more in less time</h2>
-    <img class="text-break img-fluid img-thumbnail" style="width: 700px" src="assets/images/stock_office_photo2.jpg">
+    <img class="text-break img-fluid img-thumbnail" alt="stock image" style="width: 700px" src="assets/images/stock_office_photo2.jpg">
   </div>
 
 </div>

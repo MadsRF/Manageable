@@ -1,0 +1,66 @@
+<div class="frame">
+  <button class="btn btn-dark" (click)="openCreateMessage($event, message)">New message</button>
+  <br><br>
+
+    <div *ngIf="state">
+      <form #messageContent="ngForm" (ngSubmit)="createMessage(messageContent)" novalidate>
+
+        <div class="form-group">
+          <textarea type="text" class="form-control" name="message" placeholder="message..."
+                    [(ngModel)]="message.message"></textarea>
+        </div>
+        <div class="row ">
+          <div class="form-group col">
+            <input type="text" class="form-control" name="user" placeholder="user..." [(ngModel)]="message.user">
+          </div>
+          <div class="form-group col modal-footer">
+            <button type="submit" class="btn btn-dark">Create</button>
+            <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  <br>
+
+  <div *ngFor="let item of messageList;">
+    <div class="container">
+
+      <div class="left">
+        <span>{{item.user}}: </span>
+        <span>{{item.time}}</span>
+        <span>{{item.date.day}}/{{item.date.month}}-{{item.date.year}}</span>
+      </div>
+
+      <div ngbDropdown class="d-inline-block right">
+        <button class="btn btn-outline-dark" id="dropdowns" ngbDropdownToggle>Options</button>
+        <div ngbDropdownMenu aria-labelledby="dropdowns">
+          <button ngbDropdownItem (click)="openUpdateMessage($event, message)">Edit</button>
+          <button ngbDropdownItem (click)="deleteMessage($event, item)">Delete</button>
+        </div>
+      </div><br><br>
+
+      <span style="white-space: normal;"><strong>{{item.message}}</strong></span>
+
+    </div>
+  </div>
+
+
+<!--  <div>-->
+<!--    <form (ngSubmit)="updateMessage(message)" novalidate>-->
+
+<!--      <div class="modal-body">-->
+<!--        <div class="form-group">-->
+<!--                <textarea type="text" class="form-control" name="editmessage"-->
+<!--                          [(ngModel)]="item.message"></textarea>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="submit" class="btn btn-dark">Update</button>-->
+<!--        <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>-->
+<!--      </div>-->
+
+<!--    </form>-->
+<!--  </div>-->
+
+
+</div>

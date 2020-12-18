@@ -1,0 +1,119 @@
+<div>
+
+  <div class="formsframe">
+    <button class="btn btn-dark" (click)="openCreateSchedule(content)">Create Task</button>
+    <br><br>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Task</th>
+        <th scope="col">User</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Select</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of scheduleList; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td style="white-space: normal;">{{item.task}}</td>
+        <td>{{item.user}}</td>
+        <td>{{item.date.day}}/{{item.date.month}}-{{item.date.year}}</td>
+        <td>{{item.time}}</td>
+
+        <td>
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-dark" id="dropdowns" ngbDropdownToggle>Options</button>
+            <div ngbDropdownMenu aria-labelledby="dropdowns">
+              <button ngbDropdownItem (click)="openUpdateSchedule($event, item)"> Edit</button>
+              <button ngbDropdownItem (click)="deleteSchedule($event, item)"> Delete</button>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div *ngIf="editState && item.docRef == schedule.docRef">
+            <form (ngSubmit)="updateSchedule(schedule)" novalidate>
+
+              <div class="modal-body">
+                <div class="form-group">
+                <textarea type="text" class="form-control" name="edittask"
+                          [(ngModel)]="schedule.task"></textarea>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="edituser" [(ngModel)]="schedule.user">
+                </div>
+                <div class="form-group">
+                  <ngb-datepicker name="editdate" [(ngModel)]="dateModel" (navigate)="date = $event.next"
+                                  required></ngb-datepicker>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="edittime" name="edittime"
+                         [(ngModel)]="schedule.time">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-dark">Update</button>
+                <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <ng-template #content let-d="dismiss">
+
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Create new task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <form #schedulecontent="ngForm" (ngSubmit)="createSchedule(schedulecontent)" novalidate>
+      <div class="modal-body">
+
+        <!-- {{schedulecontent.value | json}} -->
+
+        <div class="form-group">
+          <label for="task">Task</label>
+          <textarea type="text" class="form-control" id="task" placeholder="order new part..." name="task"
+                    [(ngModel)]="schedule.task"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user">User</label>
+          <input type="text" class="form-control" id="user" name="user" [(ngModel)]="schedule.user">
+        </div>
+
+        <div class="form-group">
+          <label for="date">Date</label><br>
+          <!--          <button type="button" class="btn btn-sm btn-outline-dark" (click)="selectToday()">Select Today</button>-->
+          <!--          <br>-->
+          <!--          <br>-->
+          <ngb-datepicker id="date" name="date" [(ngModel)]="dateModel"
+                          (navigate)="date = $event.next" required></ngb-datepicker>
+        </div>
+
+        <div class="form-group">
+          <label for="time">Time</label>
+          <input type="text" class="form-control" id="time" placeholder="13:00..." name="time"
+                 [(ngModel)]="schedule.time">
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-dark">Save</button>
+        <button type="button" class="btn btn-danger" (click)="d('Cancel click')">Cancel</button>
+      </div>
+    </form>
+  </ng-template>
+
+</div>
