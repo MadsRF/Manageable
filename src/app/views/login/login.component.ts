@@ -24,12 +24,11 @@ export class LoginComponent implements OnInit {
   login() {
     this.clearErrorMessage();
     if (this.validateForm(this.email, this.password)) {
-      this.authService.loginWithEmail(this.email, this.password)
-        .then(() => {
-          this.router.navigate(['/userinfo']);
-        }).catch(error => {
+      this.authService.loginWithEmail(this.email, this.password).then(() => {
+        this.router.navigate(['schedule']).then();
+      }).catch(error => {
         this.error = error;
-        this.router.navigate(['/login']);
+        this.router.navigate(['login']).then();
       });
     }
   }

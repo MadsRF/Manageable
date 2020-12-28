@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {Schedule, ScheduleInterface} from '../../models/schedule';
 import {ScheduleService} from '../../services/schedule/schedule.service';
 import {ToastrService} from 'ngx-toastr';
+import {AuthService} from '../../services/auth/auth.service';
 
 
 @Component({
@@ -23,18 +24,18 @@ export class ScheduleComponent implements OnInit {
               private modalService: NgbModal,
               private calendar: NgbCalendar,
               private scheduleService: ScheduleService,
-              private toastr: ToastrService) {
+              private toast: ToastrService,
+              public authService: AuthService) {
 
     // Customize default values of modals used by this component tree
     config.backdrop = 'static';
     config.keyboard = false;
-
   }
 
   // Initialises the schedule object with default values
   ngOnInit(): void {
-    this.schedule = new Schedule('', '', this.dateModel, '00:00');
     this.readSchedulesList();
+    this.schedule = new Schedule('', '', this.dateModel, '00:00');
   }
 
   // Opens modal window for create schedule
@@ -43,17 +44,17 @@ export class ScheduleComponent implements OnInit {
   }
 
   // Creates new task for the schedule
-  createSchedule(schedulecontent: NgForm) {
-    if (schedulecontent.valid) {
-      this.scheduleService.createSchedule(schedulecontent.value);
+  createSchedule(scheduleContent: NgForm) {
+    if (scheduleContent.valid) {
+      this.scheduleService.createSchedule(scheduleContent.value);
       this.showCreate();
     }
     this.schedule = new Schedule('', '', this.dateModel, '00:00');
   }
 
+  // gets list of tasks for schedules
   readSchedulesList() {
     this.scheduleService.getSchedules().subscribe(schedules => {
-      console.log('schedules list', schedules);
       this.scheduleList = schedules;
     });
   }
@@ -75,21 +76,23 @@ export class ScheduleComponent implements OnInit {
     this.showDelete();
   }
 
+  // used to clear input
   clearState() {
     this.editState = false;
     this.schedule = new Schedule('', '', this.dateModel, '00:00');
   }
 
+  // messages for CRUD
   showCreate() {
-    this.toastr.success('Task Added');
+    this.toast.success('Task Added');
   }
 
   showUpdate() {
-    this.toastr.info('Task Update');
+    this.toast.info('Task Update');
   }
 
   showDelete() {
-    this.toastr.error('Task Deleted');
+    this.toast.error('Task Deleted');
   }
 
   // TODO: button for picking today's date

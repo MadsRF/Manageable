@@ -1,13 +1,19 @@
+// modules
 import {BrowserModule} from '@angular/platform-browser';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule, NgForm} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
 import {AppRoutingModule} from './app-routing.module';
-import {environment} from '../environments/environment';
 import {NgbDatepickerModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+
+// environment for local build and deploy build
+import {environment} from '../environments/environment'; // local
+// import {environment} from '../environments/environment.prod'; // prod
 
 // Components
 import {AppComponent} from './app.component';
@@ -20,14 +26,19 @@ import {LoginComponent} from './views/login/login.component';
 import {UserinfoComponent} from './views/userinfo/userinfo.component';
 import {BoardComponent} from './views/board/board.component';
 import {ScheduleComponent} from './views/schedule/schedule.component';
+import {TermComponent} from './views/term/term.component';
 
-// Firebase module
+// Firebase modules
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+
+// Services
 import {AuthService} from './services/auth/auth.service';
 import {ScheduleService} from './services/schedule/schedule.service';
 import {BoardService} from './services/board/board.service';
+import {ContactService} from './services/contact/contact.service';
+import {CompanyuserService} from './services/companyuser/companyuser.service';
 
 
 // Angular decorator that modifies/setup our app.module
@@ -42,11 +53,14 @@ import {BoardService} from './services/board/board.service';
     LoginComponent,
     UserinfoComponent,
     BoardComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    TermComponent
   ],
   imports: [
+    HttpClientModule,
+    ReactiveFormsModule, // used for a more controllable form type
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot(), // ToastrModule added for alerts
     CommonModule,
     BrowserModule,
     FormsModule,
@@ -58,7 +72,7 @@ import {BoardService} from './services/board/board.service';
     NgbDatepickerModule,
     NgbModule,
   ],
-  providers: [AuthService, ScheduleService, BoardService],
+  providers: [AuthService, ScheduleService, BoardService, ContactService, CompanyuserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

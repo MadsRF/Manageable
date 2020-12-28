@@ -1,5 +1,8 @@
 export class Schedule {
-  constructor(public task: string, public user: string, public date: { year: number, month: number, day: number }, public time: string) {
+  constructor(public task: string,
+              public user: string,
+              public date: { year: number, month: number, day: number },
+              public time: string) {
   }
 }
 

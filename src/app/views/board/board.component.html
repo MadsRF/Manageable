@@ -1,25 +1,26 @@
-<div class="frame">
-  <button class="btn btn-dark" (click)="openCreateMessage($event, message)">New message</button>
+<div *ngIf="authService.currentUser" class="formsframe" >
+  <button class="btn btn-dark" (click)="openCreateMessage()">New message</button>
   <br><br>
 
-    <div *ngIf="state">
-      <form #messageContent="ngForm" (ngSubmit)="createMessage(messageContent)" novalidate>
+  <div *ngIf="state">
+    <form #messageContent="ngForm" (ngSubmit)="createMessage(messageContent)" novalidate>
+      <div class="row">
+        <div class="form-group col">
+          <input type="text" class="form-control" name="title" placeholder="title..." [(ngModel)]="message.title">
+        </div>
 
-        <div class="form-group">
-          <textarea type="text" class="form-control" name="message" placeholder="message..."
-                    [(ngModel)]="message.message"></textarea>
+      </div>
+      <div class="form-group">
+        <textarea type="text" class="form-control" name="message" placeholder="message..."
+                  [(ngModel)]="message.message"></textarea>
+        <div class="form-group modal-footer">
+          <button type="submit" class="btn btn-dark">Create</button>
+          <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>
         </div>
-        <div class="row ">
-          <div class="form-group col">
-            <input type="text" class="form-control" name="user" placeholder="user..." [(ngModel)]="message.user">
-          </div>
-          <div class="form-group col modal-footer">
-            <button type="submit" class="btn btn-dark">Create</button>
-            <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>
-          </div>
-        </div>
-      </form>
-    </div>
+      </div>
+
+    </form>
+  </div>
   <br>
 
   <div *ngFor="let item of messageList;">
@@ -34,33 +35,36 @@
       <div ngbDropdown class="d-inline-block right">
         <button class="btn btn-outline-dark" id="dropdowns" ngbDropdownToggle>Options</button>
         <div ngbDropdownMenu aria-labelledby="dropdowns">
-          <button ngbDropdownItem (click)="openUpdateMessage($event, message)">Edit</button>
+          <!--<button ngbDropdownItem (click)="openUpdateMessage($event, message)">Edit</button>-->
           <button ngbDropdownItem (click)="deleteMessage($event, item)">Delete</button>
         </div>
-      </div><br><br>
+      </div>
+      <br><br>
 
-      <span style="white-space: normal;"><strong>{{item.message}}</strong></span>
+      <span style="white-space: normal;"><h5>{{item.title}}</h5></span><br>
+      <span style="white-space: normal;">{{item.message}}</span>
 
     </div>
   </div>
 
 
-<!--  <div>-->
-<!--    <form (ngSubmit)="updateMessage(message)" novalidate>-->
+  <!-- TODO: not implemented -->
+  <!--  <div>-->
+  <!--    <form (ngSubmit)="updateMessage(message)" novalidate>-->
 
-<!--      <div class="modal-body">-->
-<!--        <div class="form-group">-->
-<!--                <textarea type="text" class="form-control" name="editmessage"-->
-<!--                          [(ngModel)]="item.message"></textarea>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="modal-footer">-->
-<!--        <button type="submit" class="btn btn-dark">Update</button>-->
-<!--        <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>-->
-<!--      </div>-->
+  <!--      <div class="modal-body">-->
+  <!--        <div class="form-group">-->
+  <!--                <textarea type="text" class="form-control" name="editmessage"-->
+  <!--                          [(ngModel)]="item.message"></textarea>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--      <div class="modal-footer">-->
+  <!--        <button type="submit" class="btn btn-dark">Update</button>-->
+  <!--        <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>-->
+  <!--      </div>-->
 
-<!--    </form>-->
-<!--  </div>-->
+  <!--    </form>-->
+  <!--  </div>-->
 
 
 </div>

@@ -4,6 +4,8 @@ import {NgbCalendar, NgbDateStruct, NgbModal, NgbModalConfig} from '@ng-bootstra
 import {ToastrService} from 'ngx-toastr';
 import {BoardService} from '../../services/board/board.service';
 import {Message, MessageInterface} from '../../models/message';
+import {AuthService} from '../../services/auth/auth.service';
+import {CompanyuserService} from '../../services/companyuser/companyuser.service';
 
 @Component({
   selector: 'app-board',
@@ -13,83 +15,100 @@ import {Message, MessageInterface} from '../../models/message';
 export class BoardComponent implements OnInit {
 
   dateModel: NgbDateStruct; // Holds the date structure day/month/year format
-  message: MessageInterface; // Used for creating a new message object and editing
+  message: Message; // Used for creating a new message object and editing
   messageList: MessageInterface[]; // Used to display list of messages
-  state: boolean;
+  user: string; // holds username
+  state: boolean; // used for opening and closing "new message" button
+  // time = Date.now(); TODO: add time to message and sort by time and date instead of just date
+
 
   constructor(private config: NgbModalConfig,
               private modalService: NgbModal,
               private calendar: NgbCalendar,
               private boardService: BoardService,
-              private toastr: ToastrService) {
+              private toast: ToastrService,
+              public authService: AuthService,
+              private companyUserService: CompanyuserService) {
   }
 
+  // On initialization gets executed
   ngOnInit(): void {
-    this.message = new Message('', '', this.dateModel, '');
     this.readMessageList();
+    this.readCompaniesUsers();
   }
 
-  openCreateMessage(event, message: MessageInterface) {
+  // gets the company user. Used for getting username
+  readCompaniesUsers() {
+    this.companyUserService.getCompanyUser().subscribe(companyUser => {
+      this.user = companyUser[0].firstname;
+    });
+  }
+
+  // On button click creates object message
+  openCreateMessage() {
+    this.message = new Message('', '', '', this.dateModel, '');
     this.state = true;
-    this.message = message;
   }
 
-  // Creates new task for the schedule
+  // Creates new message for board
   createMessage(messageContent: NgForm) {
     if (messageContent.valid) {
       this.message = messageContent.value;
-
       this.message.date = {
         year: this.calendar.getToday().year,
         month: this.calendar.getToday().month,
         day: this.calendar.getToday().day,
       };
-
+      this.message.user = this.user;
       this.boardService.createMessage(this.message);
       this.showCreate();
     }
-    this.message = new Message('', '', this.dateModel, '');
+    this.message = new Message('', '', '', this.dateModel, '');
   }
 
+  // gets list of messages from the board collection
   readMessageList() {
     this.boardService.getMessages().subscribe(messages => {
-      console.log('messages list', messages);
       this.messageList = messages;
     });
   }
 
-  openUpdateMessage(event, message: MessageInterface) {
-    this.state = true;
-    this.message = message;
-  }
+  // TODO: not implemented
+  // openUpdateMessage(event, message: MessageInterface) {
+  //   this.state = true;
+  //   this.message = message;
+  // }
+  //
+  // updateMessage(message: MessageInterface) {
+  //   this.boardService.updateMessage(message);
+  //   this.clearState();
+  //   this.showUpdate();
+  // }
 
-  updateMessage(message: MessageInterface) {
-    this.boardService.updateMessage(message);
-    this.clearState();
-    this.showUpdate();
-  }
-
+  // delete object, clears input fields and shows delete message
   deleteMessage(event, message: MessageInterface) {
     this.boardService.deleteMessage(message);
     this.clearState();
     this.showDelete();
   }
 
+  // used to clear input
   clearState() {
     this.state = false;
-    this.message = new Message('', '', this.dateModel, '');
+    this.message = new Message('', '', '', this.dateModel, '');
   }
 
+  // messages for CRUD
   showCreate() {
-    this.toastr.success('Message Added');
+    this.toast.success('Message Added');
   }
 
   showUpdate() {
-    this.toastr.info('Message Update');
+    this.toast.info('Message Update');
   }
 
   showDelete() {
-    this.toastr.error('Message Deleted');
+    this.toast.error('Message Deleted');
   }
 
 }

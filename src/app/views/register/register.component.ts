@@ -13,12 +13,13 @@ export class RegisterComponent implements OnInit {
 
   companyUser: CompanyUserInterface;
   password = '';
+  checkTerms = false;
 
   message = '';
   errorMessage = ''; // validation error handling
   error: { name: string, message: string } = {name: '', message: ''}; // for firebase error handling
 
-  constructor(public authService: AuthService,
+  constructor(private authService: AuthService,
               private router: Router,
               private config: NgbModalConfig,
               private modalService: NgbModal,
@@ -32,12 +33,12 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // register company. checks if value are true before creating with authService
+  // register company/association. checks if value are true before creating with authService
   // sends company info from registry to create new doc in collection
-  registerCompany(content) {
+  registerWithEmail(content) {
     this.clearErrorMessage();
-    console.log(this.companyUser);
-    if (this.validateRegisterForm(this.companyUser.email, this.password)) {
+
+    if (this.validateRegisterForm(this.companyUser.email, this.password, this.checkTerms)) {
       this.authService.registerWithEmail(this.companyUser.email, this.password, this.companyUser).then(() => {
         this.modalService.open(content);
         this.router.navigate(['userinfo']).then();
@@ -50,7 +51,7 @@ export class RegisterComponent implements OnInit {
   }
 
   // custom validator for register form
-  validateRegisterForm(email, password) {
+  validateRegisterForm(email, password, terms) {
     if (email.lengh === 0) {
       this.errorMessage = 'Please enter email';
       return false;
@@ -61,6 +62,10 @@ export class RegisterComponent implements OnInit {
     }
     if (password.lengh < 6) {
       this.errorMessage = 'Password should be at least 6 characters long';
+      return false;
+    }
+    if (!terms) {
+      this.errorMessage = 'You have to accept terms and conditions before continuing';
       return false;
     }
     this.errorMessage = '';

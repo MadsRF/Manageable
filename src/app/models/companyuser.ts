@@ -1,5 +1,9 @@
 export class CompanyUser {
-  constructor(public UID: string, public company: string, public email: string, public firstname: string, public lastname: string) {
+  constructor(public UID: string,
+              public company: string,
+              public email: string,
+              public firstname: string,
+              public lastname: string) {
   }
 }
 
@@ -12,4 +16,7 @@ export interface CompanyUserInterface {
   firstname?: string;
   lastname?: string;
   company?: string;
+  password?: string;
+  // not present in document but holds value
+  docRef?: string;
 }

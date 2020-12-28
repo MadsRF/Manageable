@@ -1,12 +1,36 @@
+<div class="formsframe" *ngIf="authService.currentUser">
 
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="text-info" *ngIf = "authService.currentUser">
+  <form (ngSubmit)="updateCompanyUser(companyUser)" novalidate *ngFor="let companyUser of companyUserList">
 
-      <h4><b>User ID:</b>{{authService.currentUserId}}</h4>
-      <h4><b>User email:</b>{{authService.currentUserName}}</h4>
-      <button class="btn-danger" (click)="authService.logout()">Logout</button>
-
+    <div class="form-group">
+      <label for="firstname">First name</label>
+      <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="companyUser.firstname">
     </div>
-  </div>
+
+    <div class="form-group">
+      <label for="lastname">Last name</label>
+      <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="companyUser.lastname">
+    </div>
+
+    <div class="form-group">
+      <label for="company">Company / Associations name</label>
+      <input type="text" class="form-control" id="company" name="company" [(ngModel)]="companyUser.company">
+    </div>
+
+    <!-- TODO: not implemented yet -->
+<!--    <div class="form-group">-->
+<!--      <label for="email">Email</label>-->
+<!--      <input type="text" class="form-control" id="email" name="email" [(ngModel)]="companyUser.email">-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--      <label for="password">Password</label>-->
+<!--      <input type="text" class="form-control" id="password" name="password" [(ngModel)]="companyUser.password">-->
+<!--    </div>-->
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-dark">Update</button>
+    </div>
+
+  </form>
 </div>

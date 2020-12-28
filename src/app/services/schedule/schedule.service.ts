@@ -10,16 +10,18 @@ import {AuthService} from '../auth/auth.service';
   providedIn: 'root'
 })
 export class ScheduleService {
-  schedulesCollection: AngularFirestoreCollection<ScheduleInterface>;
-  schedules: Observable<ScheduleInterface[]>;
-  scheduleDoc: AngularFirestoreDocument<ScheduleInterface>;
+  schedulesCollection: AngularFirestoreCollection<ScheduleInterface>; // This class creates a reference to a Firestore Collection.
+  schedules: Observable<ScheduleInterface[]>; // A representation of any set of values over any amount of time
+  scheduleDoc: AngularFirestoreDocument<ScheduleInterface>; // This class creates a reference to a Firestore Document.
 
+  // when class is called executes the constructor and gets the list of schedules
   constructor(private afs: AngularFirestore, private authService: AuthService) {
     this.schedulesCollection = this.afs.collection('schedules', ref => ref
       .where('UID', '==', this.authService.currentUserId)
       .orderBy('user', 'asc'));
   }
 
+  // Gets the full list of messages where the user id matches and orders by date
   getSchedules(): Observable<ScheduleInterface[]> {
     return this.afs.collection('schedules', (ref) => ref
       .where('UID', '==', this.authService.currentUserId)
@@ -37,58 +39,19 @@ export class ScheduleService {
   }
 
 // creates a collection called schedules if not created and adds new schedule doc.
-  createSchedule(schedulecontent: ScheduleInterface) {
-    schedulecontent.UID = this.authService.currentUserId;
-    this.schedulesCollection.add(Object.assign({}, schedulecontent)).then();
+  createSchedule(scheduleContent: ScheduleInterface) {
+    scheduleContent.UID = this.authService.currentUserId;
+    this.schedulesCollection.add(Object.assign({}, scheduleContent)).then();
   }
 
   updateSchedule(schedule: ScheduleInterface) {
     this.scheduleDoc = this.afs.doc(`schedules/${schedule.docRef}`);
-    this.scheduleDoc.update(schedule);
+    this.scheduleDoc.update(schedule).then();
   }
 
   deleteSchedule(schedule: ScheduleInterface) {
     this.scheduleDoc = this.afs.doc(`schedules/${schedule.docRef}`);
-    this.scheduleDoc.delete();
+    this.scheduleDoc.delete().then();
   }
 
 }
-
-// TODO: old code for constructor
-// console.log('scheduleService called1');
-// this.schedulesCollection = this.afs.collection('schedules', ref => ref
-//   .where('UID', '==', this.authService.currentUserId)
-//   .orderBy('user', 'asc'));
-// console.log('scheduleService called2');
-// this.schedules = this.schedulesCollection.snapshotChanges()
-//   .pipe(map(changes => {
-//     console.log('scheduleService called3');
-//     return changes.map(a => {
-//       // doesn't get called when page gets refreshed
-//       console.log('scheduleService called4');
-//       const data = a.payload.doc.data() as ScheduleInterface;
-//       data.docRef = a.payload.doc.id;
-//       return data;
-//     });
-//   }));
-
-// TODO: Creates a subcollection called schedules in the companies collection. Uses the UID (user id) as an unique identifier
-// this.afs.collection<any>('companies').snapshotChanges().pipe(map(actions => {
-//   return actions.map(a => {
-//     const data = a.payload.doc.data();
-//     const id = a.payload.doc.id;
-//     if (data.UID === this.authService.currentUserId) {
-//       console.log('id', id, 'data', data);
-//
-//       schedulecontent.UID = this.authService.currentUserId;
-//       // console.log(id);
-//       this.afs.collection('companies').doc(id).collection('schedules').add(schedulecontent).then();
-//     }
-//   });
-// })).subscribe();
-
-// TODO: finds one company in collection companies
-// const res = this.fireService.collection('companies', ref => ref.where('UID', '==', this.authService.currentUserId)).valueChanges()
-// .subscribe(data => {
-//   console.log('data', data[0]);
-//   return data;

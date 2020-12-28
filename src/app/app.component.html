@@ -64,12 +64,16 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">Options
           </a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding: 20px; margin: 10px; width: 250px">
-            <span>Logged in as:</span><br>
-            <b>{{authService.currentUserName}}</b>
-            <br><br>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+               style="padding: 15px; margin: 10px; width: 250px">
+            <div class=" dropdown-item">
+              <span>Logged in as:</span><br>
+              <b class="text-info">{{authService.currentUserName}}</b>
+            </div>
             <a class="dropdown-item" routerLink="/userinfo" routerLinkActive="active"><h5>User Info</h5></a>
-            <a class="dropdown-item" routerLink="/logout" routerLinkActive="active"><h5>Logout</h5></a>
+            <a class="dropdown-item" routerLink="/login" (click)="authService.logout()" routerLinkActive="active"><h5>
+              Logout</h5></a>
+
           </div>
         </div>
       </li>
@@ -87,11 +91,13 @@
   <!-- Footer -->
   <footer class="bg-dark ">
     <!-- Version -->
-    <div class="py-3 text-white-50">2020 - Final Exam Project Ver. 0.1<a
-      href="https://www.linkedin.com/in/madsrunefrederiksen">
-      <img class="linkedinlogo" src="./assets/images/LI-In-Bug.png" alt="link" style="width: 50px">
-    </a>
-
+    <div class="py-3 text-white-50 ">
+      <p style="display:inline; white-space:nowrap;">2020 - Final Exam Project Ver. {{version}}</p>
+      <a href="https://www.linkedin.com/in/madsrunefrederiksen">
+        <img class="linkedinlogo"
+             src="./assets/images/LI-In-Bug.png" alt="link"
+             style="width: 50px"></a>
     </div>
+
   </footer>
 </div>

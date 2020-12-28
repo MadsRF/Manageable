@@ -1,1 +1,45 @@
-<p>contact works!</p>
+<div class="formsframe row">
+
+  <div class="col">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" formControlName="email" id="email" name="email"
+               aria-describedby="emailHelp"
+               placeholder="Enter email"
+        >
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" class="form-control" formControlName="fullName" id="fullname" name="fullname"
+               placeholder="Full Name">
+      </div>
+
+      <div class="form-group">
+        <label for="comment">Comment</label>
+        <textarea type="text" class="form-control" formControlName="comment" id="comment" name="comment"></textarea>
+      </div>
+
+
+
+      <button type="submit" class="btn btn-dark" [disabled]="!formGroup.valid">Submit</button>
+
+      <div *ngIf="state" class="spinner-border text-primary float-right" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+
+    </form>
+  </div>
+
+  <div class="col">
+    <img class=" mx-3 p-3" src="assets/svg/telephone-forward-fill.svg" aria-describedby="number">
+    <a id="number"> +45 12345678</a><br>
+    <img class=" mx-3 p-3" src="assets/svg/envelope-fill.svg" aria-describedby="mail">
+    <a id="mail"> madstestmail@gmail.com</a>
+  </div>
+
+</div>
