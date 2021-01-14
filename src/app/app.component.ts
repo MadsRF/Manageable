@@ -9,7 +9,7 @@ import {AuthService} from './services/auth/auth.service';
 // uses authservice in the html to check if user is logged in. changes navigation bar
 export class AppComponent {
   title = 'Manageable';
-  version = '0.5';
+  version = '0.6';
   constructor(public authService: AuthService) {
   }
 }

@@ -1,6 +1,7 @@
 <div class="formsframe" *ngIf="authService.currentUser">
 
   <form (ngSubmit)="updateCompanyUser(companyUser)" novalidate *ngFor="let companyUser of companyUserList">
+    <h6>Company Information</h6>
 
     <div class="form-group">
       <label for="firstname">First name</label>

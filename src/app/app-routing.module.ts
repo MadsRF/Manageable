@@ -11,6 +11,7 @@ import {BoardComponent} from './views/board/board.component';
 import {ScheduleComponent} from './views/schedule/schedule.component';
 import {TermComponent} from './views/term/term.component';
 import {AngularFireAuthGuard} from '@angular/fire/auth-guard';
+import {UserComponent} from './views/user/user.component';
 
 const routes: Routes = [
   // free for all visitor
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'terms', component: TermComponent},
   // has to be logged in to access these paths
   {path: 'userinfo', component: UserinfoComponent, canActivate: [AngularFireAuthGuard]},
+  {path: 'employees', component: UserComponent, canActivate: [AngularFireAuthGuard]},
   {path: 'board', component: BoardComponent, canActivate: [AngularFireAuthGuard]},
   {path: 'schedule', component: ScheduleComponent, canActivate: [AngularFireAuthGuard]},
   // other

@@ -12,8 +12,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
 // environment for local build and deploy build
-import {environment} from '../environments/environment'; // local
-// import {environment} from '../environments/environment.prod'; // prod
+// import {environment} from '../environments/environment'; // local
+import {environment} from '../environments/environment.prod'; // prod
 
 // Components
 import {AppComponent} from './app.component';
@@ -39,6 +39,7 @@ import {ScheduleService} from './services/schedule/schedule.service';
 import {BoardService} from './services/board/board.service';
 import {ContactService} from './services/contact/contact.service';
 import {CompanyuserService} from './services/companyuser/companyuser.service';
+import { UserComponent } from './views/user/user.component';
 
 
 // Angular decorator that modifies/setup our app.module
@@ -54,7 +55,8 @@ import {CompanyuserService} from './services/companyuser/companyuser.service';
     UserinfoComponent,
     BoardComponent,
     ScheduleComponent,
-    TermComponent
+    TermComponent,
+    UserComponent
   ],
   imports: [
     HttpClientModule,

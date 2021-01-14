@@ -5,6 +5,8 @@ import {Schedule, ScheduleInterface} from '../../models/schedule';
 import {ScheduleService} from '../../services/schedule/schedule.service';
 import {ToastrService} from 'ngx-toastr';
 import {AuthService} from '../../services/auth/auth.service';
+import {UserService} from '../../services/user/user.service';
+import {UserInterface} from '../../models/user';
 
 
 @Component({
@@ -18,13 +20,16 @@ export class ScheduleComponent implements OnInit {
   date: { year: number, month: number }; // Is for the datepicker month and year selector
   schedule: ScheduleInterface; // Used for creating a new schedule object and editing
   scheduleList: ScheduleInterface[]; // Used to display list of schedules
-  editState: boolean;
+  userList: UserInterface[] = null; // Used to display list of users
+  editState: boolean; // toggles edit window on/off
+  errorMessage = ''; // holds error message
 
   constructor(private config: NgbModalConfig,
               private modalService: NgbModal,
               private calendar: NgbCalendar,
               private scheduleService: ScheduleService,
               private toast: ToastrService,
+              private userService: UserService,
               public authService: AuthService) {
 
     // Customize default values of modals used by this component tree
@@ -35,21 +40,26 @@ export class ScheduleComponent implements OnInit {
   // Initialises the schedule object with default values
   ngOnInit(): void {
     this.readSchedulesList();
-    this.schedule = new Schedule('', '', this.dateModel, '00:00');
+    this.schedule = new Schedule('', '', this.dateModel, '12:00');
   }
 
   // Opens modal window for create schedule
   openCreateSchedule(content) {
+    this.userService.getUsers().subscribe(users => {
+      this.userList = users;
+    });
     this.modalService.open(content);
   }
 
   // Creates new task for the schedule
   createSchedule(scheduleContent: NgForm) {
-    if (scheduleContent.valid) {
+    console.log(scheduleContent.value);
+    this.errorMessage = '';
+    if (this.validateForm(scheduleContent)) {
       this.scheduleService.createSchedule(scheduleContent.value);
       this.showCreate();
+      this.schedule = new Schedule('', '', this.dateModel, '12:00');
     }
-    this.schedule = new Schedule('', '', this.dateModel, '00:00');
   }
 
   // gets list of tasks for schedules
@@ -79,7 +89,7 @@ export class ScheduleComponent implements OnInit {
   // used to clear input
   clearState() {
     this.editState = false;
-    this.schedule = new Schedule('', '', this.dateModel, '00:00');
+    this.schedule = new Schedule('', '', this.dateModel, '');
   }
 
   // messages for CRUD
@@ -93,6 +103,33 @@ export class ScheduleComponent implements OnInit {
 
   showDelete() {
     this.toast.error('Task Deleted');
+  }
+
+  // custom validator for create task form
+  validateForm(scheduleContent: NgForm) {
+
+    if (scheduleContent.value.task.length === 0) {
+      this.errorMessage = 'please enter a task';
+      return false;
+    }
+
+    if (scheduleContent.value.user.length === 0) {
+      this.errorMessage = 'please pick an employee';
+      return false;
+    }
+
+    if (scheduleContent.value.date === undefined) {
+      scheduleContent.value.date = {
+        day: 0,
+        month: 0,
+        year: 0,
+      };
+      this.errorMessage = 'please enter a date';
+      return false;
+    }
+
+    this.errorMessage = '';
+    return true;
   }
 
   // TODO: button for picking today's date

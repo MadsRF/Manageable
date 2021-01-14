@@ -1,4 +1,4 @@
-<div *ngIf="authService.currentUser" class="formsframe" >
+<div *ngIf="authService.currentUser" class="formsframe">
   <button class="btn btn-dark" (click)="openCreateSchedule(content)">Create Task</button>
   <br><br>
 
@@ -35,21 +35,26 @@
           <form (ngSubmit)="updateSchedule(schedule)" novalidate>
 
             <div class="modal-body">
+
               <div class="form-group">
                 <textarea type="text" class="form-control" name="edittask"
                           [(ngModel)]="schedule.task"></textarea>
               </div>
+
               <div class="form-group">
                 <input type="text" class="form-control" name="edituser" [(ngModel)]="schedule.user">
               </div>
+
               <div class="form-group">
                 <ngb-datepicker name="editdate" [(ngModel)]="dateModel" (navigate)="date = $event.next"
                                 required></ngb-datepicker>
               </div>
+
               <div class="form-group">
                 <input type="text" class="form-control" id="edittime" name="edittime"
                        [(ngModel)]="schedule.time">
               </div>
+
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-dark">Update</button>
@@ -77,34 +82,36 @@
   <form #scheduleContent="ngForm" (ngSubmit)="createSchedule(scheduleContent)" novalidate>
     <div class="modal-body">
 
-      <!-- {{schedulecontent.value | json}} -->
-
       <div class="form-group">
         <label for="task">Task</label>
         <textarea type="text" class="form-control" id="task" placeholder="order new part..." name="task"
-                  [(ngModel)]="schedule.task"></textarea>
+                  [(ngModel)]="schedule.task" required></textarea>
       </div>
 
       <div class="form-group">
-        <label for="user">User</label>
-        <input type="text" class="form-control" id="user" name="user" [(ngModel)]="schedule.user">
+        <label for="user">Employee</label>
+        <select class="form-control" id="user" name="user" [(ngModel)]="schedule.user">
+          <option disabled selected value> -- select an employee --</option>
+          <option *ngFor="let user of userList" required>{{user.firstname}} {{user.lastname}}</option>
+        </select>
       </div>
 
       <div class="form-group">
         <label for="date">Date</label><br>
-        <!--          <button type="button" class="btn btn-sm btn-outline-dark" (click)="selectToday()">Select Today</button>-->
-        <!--          <br>-->
-        <!--          <br>-->
-        <ngb-datepicker id="date" name="date" [(ngModel)]="dateModel"
-                        (navigate)="date = $event.next" required></ngb-datepicker>
+        <!--        <button type="button" class="btn btn-sm btn-outline-dark" (click)="selectToday()">Select Today</button>-->
+        <!--        <br><br>-->
+        <ngb-datepicker id="date" name="date" [(ngModel)]="dateModel" (navigate)="date = $event.next"></ngb-datepicker>
       </div>
 
       <div class="form-group">
         <label for="time">Time</label>
-        <input type="text" class="form-control" id="time" placeholder="13:00..." name="time"
-               [(ngModel)]="schedule.time">
+        <input type="time" class="form-control" id="time" name="time" [(ngModel)]="schedule.time">
       </div>
 
+      <div class="form-group">
+        <p *ngIf="errorMessage.length > 0" class="text-danger">
+          {{errorMessage}}</p>
+      </div>
 
     </div>
     <div class="modal-footer">

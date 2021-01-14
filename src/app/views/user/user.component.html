@@ -1,0 +1,121 @@
+<div *ngIf="authService.currentUser" class="formsframe">
+  <button class="btn btn-dark" (click)="openCreateUser(content)">Create Employee</button>
+  <br><br>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Occupation</th>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Select</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of userList; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{item.occupation}}</td>
+      <td>{{item.firstname}}</td>
+      <td>{{item.lastname}}</td>
+      <td>{{item.email}}</td>
+      <td>{{item.phone}}</td>
+      <td>
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-dark" id="dropdowns" ngbDropdownToggle>Options</button>
+          <div ngbDropdownMenu aria-labelledby="dropdowns">
+            <button ngbDropdownItem (click)="openUpdateUser($event, item)"> Edit</button>
+            <button ngbDropdownItem (click)="deleteUser($event, item)"> Delete</button>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div *ngIf="editState && item.docRef == user.docRef">
+          <form (ngSubmit)="updateUser(user)" novalidate>
+
+            <div class="modal-body editform">
+
+              <div class="form-group">
+                <input type="text" class="form-control" name="occupation" [(ngModel)]="user.occupation">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="firstname" [(ngModel)]="user.firstname">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="lastname" [(ngModel)]="user.lastname">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="email" [(ngModel)]="user.email">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="phone" [(ngModel)]="user.phone">
+              </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-dark">Update</button>
+              <button type="button" class="btn btn-danger" (click)="clearState()">Cancel</button>
+            </div>
+
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<ng-template #content let-d="dismiss">
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create new employee</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form #userContent="ngForm" (ngSubmit)="createUser(userContent)" novalidate>
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label for="occupation">Occupation</label>
+        <input type="text" class="form-control" id="occupation" name="occupation" [(ngModel)]="user.occupation">
+      </div>
+
+      <div class="form-group">
+        <label for="firstname">First name</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="user.firstname" required>
+      </div>
+
+      <div class="form-group">
+        <label for="lastname">Last name</label>
+        <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="user.lastname">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="number" class="form-control" id="phone" name="phone" [(ngModel)]="user.phone" required>
+      </div>
+
+      <div class="form-group">
+        <p *ngIf="errorMessage.length > 0" class="text-danger">
+          {{errorMessage}}</p>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-dark">Save</button>
+      <button type="button" class="btn btn-danger" (click)="d('Cancel click')">Cancel</button>
+    </div>
+  </form>
+</ng-template>
+

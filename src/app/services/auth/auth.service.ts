@@ -46,8 +46,9 @@ export class AuthService {
 
   // TODO: is bugged. if time look into. (has to refresh page on logout to be able to move)
   logout(): void {
-    this.afAuth.signOut().then();
-    this.router.navigate(['/login']).then();
+    this.afAuth.signOut().then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
   // all firebase getter functions
